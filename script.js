@@ -19,37 +19,24 @@ connection.connect((err) => {
 
 function start() {
     inquirer.prompt({
-        name: 'FirstChoice',
+        name: 'FirstLayer',
         type: 'rawlist',
-        message: "Would you like to do?",
+        message: "Which area are you interested in observing today?",
         choices: [
-            "View All Employees",
-            "View All Employees by Department",
-            "View All Employees by Manager",
-            "Add Employee",
-            "Remove Employee",
-            "Update Employee Role",
-            "Update Employee Manager",
+            "Departments",
+            "Roles",
+            "Employees",
             "Exit"
         ]
     }).then(answer => {
-        if (answer.FirstChoice === "View All Employees") {
+        if (answer.FirstLayer === "Departments") {
             // Do some adding to the database
-            postAuction();
-        } else if (answer.postOrBid === "View All Employees by Department") {
-            // Get items from database and have user choose one 
-            bidAuction();
-        } else if (answer.postOrBid === "View All Employees by Manager") {
-
-        } else if (answer.postOrBid === "Add Employee") {
-
-        } else if (answer.postOrBid === "Remove Employee") {
-
-        } else if (answer.postOrBid === "Update Employee Role") {
-
-        } else if (answer.postOrBid === "Update Employee Manager") {
-            
-        } else if (answer.postOrBid === "Exit") {
+            enterDept();
+        } else if (answer.firstLayer === "Roles") {
+            enterRoles();
+        } else if (answer.firstLayer === "Employees") {
+            enterEmployees();
+        } else if (answer.firstLayer === "Exit") {
             connection.end();
         } else {
             connection.end();
