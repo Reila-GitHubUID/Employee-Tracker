@@ -52,7 +52,7 @@ function start() {
 //   * Delete departments, roles, and employees
 //   * View the total utilized budget of a department -- ie the combined salaries of all employees in that department
 
-function postAuction() {
+function enterDept() {
     inquirer.prompt([
         {
             name: "name",
@@ -90,7 +90,7 @@ function postAuction() {
     })
 }
 
-function bidAuction() {
+function enterRoles() {
     connection.query('SELECT * FROM auctions', (err, items) => {
         if (err) throw err;
         const choices = items.map(item => item.item_name);
@@ -144,18 +144,15 @@ function bidAuction() {
     })
 }
 
-function reBid(id) {
+function enterEmployees() {
     inquirer.prompt([
         {
-            name: "bid",
-            type: "input",
-            message: "How much would you like to bid?",
-            validate: function (value) {
-                if (isNaN(value) === false) {
-                    return true;
-                }
-                return false;
-            }
+            name: "EmpFirstLayer",
+            type: "rawlist",
+            message: "What would you like to do?",
+            choices: [
+                
+            ]
         }
     ]).then(answer => {
         connection.query("SELECT * FROM auctions WHERE id = ? ", id, (err, res) => {
