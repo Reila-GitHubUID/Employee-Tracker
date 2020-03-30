@@ -69,13 +69,63 @@ function enterDept() {
         if (answer.DeptFirstLayer === "View departments") {
             connection.query('SELECT * FROM department', (err, items) => {
                 if (err) throw err;
-                // const result = items.map(item => item.name);
                 console.log(items);
                 enterDept();
             });
 
         } else if (answer.DeptFirstLayer === "Add a department") {
+            inquirer.prompt([
+                {
+                    name: "deptName",
+                    type: "input",
+                    message: "What is the new department's name?",
+                    validate: function (value) {
+                        if (isNaN(value) === false) {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+            ]).then(ans => {
+                connection.query("INSERT INTO department SET ?",
+                    { name: deptName
+                    }, (err) => {
+                        if (err) throw err;
+                        console.log("Successfully adding a department");
+                        enterDept();
+                    });
+
+            });                
+            
         } else if (answer.DeptFirstLayer === "Delete a department") {
+            connection.query('SELECT * FROM department', (err, items) => {
+                if (err) throw err;
+                const choices = items.map(item => item.item_name);
+
+                inquirer.prompt([
+                    {
+                        name: "deptName",
+                        type: "rawList",
+                        message: "What is the department name that you want to delete?",
+                        choices
+                    }
+                ]).then(ans => {connection.query(
+                    "DELETE FROM department WHERE ?",
+                    {
+                      name: ans
+                    },
+                    function(err, res) {
+                      if (err) throw err;
+                      console.log("The department" + res.affectedRows + " is deleted!\n");
+                      // Call readProducts AFTER the DELETE completes
+                      enterDept();
+                    }
+                  );
+
+                });   
+            });                
+             
+
         } else if (answer.DeptFirstLayer === "Back") {
             start();
         } else {
