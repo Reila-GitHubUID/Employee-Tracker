@@ -4,7 +4,7 @@ const mysql = require("mysql");
 var connection = mysql.createConnection({
     host: "localhost",
     // Your port; if not 3306
-    port: 2020,
+    port: 3306,
     // Your username
     user: "root",
     // Your password
@@ -29,14 +29,13 @@ function start() {
             "Exit"
         ]
     }).then(answer => {
-        if (answer.FirstLayer === "Departments record") {
-            // Do some adding to the database
+        if (answer.FirstLayer === "Departments records") {
             enterDept();
-        } else if (answer.firstLayer === "Job roles record") {
+        } else if (answer.FirstLayer === "Job roles record") {
             enterRoles();
-        } else if (answer.firstLayer === "Employees record") {
+        } else if (answer.FirstLayer === "Employees record") {
             enterEmployees();
-        } else if (answer.firstLayer === "Exit") {
+        } else if (answer.FirstLayer === "Exit") {
             connection.end();
         } else {
             connection.end();
@@ -62,22 +61,26 @@ function enterDept() {
             choices: [
                 "View departments",
                 "Add a department",
-                "Update a department",
-                "Delete a department"
+                "Delete a department",
+                "Back"
             ]
         }
     ]).then(answer => {
         if (answer.DeptFirstLayer === "View departments") {
             connection.query('SELECT * FROM department', (err, items) => {
                 if (err) throw err;
-
+                // const result = items.map(item => item.name);
+                console.log(items);
+                enterDept();
             });
 
-        } else if (answer.firstLayer === "Add a department") {
-        } else if (answer.firstLayer === "Update a department") {
-        } else if (answer.firstLayer === "Delete a department") {
+        } else if (answer.DeptFirstLayer === "Add a department") {
+        } else if (answer.DeptFirstLayer === "Delete a department") {
+        } else if (answer.DeptFirstLayer === "Back") {
+            start();
         } else {
             console.log("DEPARTMENT: Sorry, your input is incorrect");
+            enterDept();
         }
     })
 }
