@@ -183,59 +183,69 @@ function enterEmployees() {
         if (answer.EmpFirstLayer === "View employees") {
             connection.query('SELECT * FROM employee', (err, items) => {
                 if (err) throw err;
-
+                
             });
 
         } else if (answer.firstLayer === "Add an employee") {
             
-            inquirer.prompt([
-                {
-                    name: "fName",
-                    type: "input",
-                    message: "What is the new employee's first name?",
-                    validate: function (value) {
-                        if (isNaN(value) === false) {
-                            return true;
-                        }
-                        return false;
-                    }
-                },
-                {
-                    name: "lName",
-                    type: "input",
-                    message: "What is the new employee's last name?",
-                    validate: function (value) {
-                        if (isNaN(value) === false) {
-                            return true;
-                        }
-                        return false;
-                    }
-                },
-                {
-                    name: "role",
-                    type: "rawlist",
-                    message: "What is the new employee's role?",
-                    choices: []
-                }, 
-                {
-                    name: "manager",
-                    type: "rawlist",
-                    message: "What is the new employee's manager?",
-                    choices: []
-                }
-            ]).then(ans => {
-                connection.query("INSERT INTO auctions SET ?",
-                    {
-                        first_name: ans.fName,
-                        lastName: ans.lName,
-                        role_id: answer.startingBid,
-                        manager_id: answer.startingBid
-                    }, (err) => {
-                        if (err) throw err;
-                        console.log("Successfully adding an employee");
-                        start();
-                    });
+            connection.query('SELECT * FROM role', (err, roleItems) => {
+                if (err) throw err;
+                const roleChoices = roleItems.map(item => item.title);
 
+                connection.query('SELECT * FROM department', (err, deptItems) => {
+                    if (err) throw err;
+                    const deptChoices = deptItems.map(item => item.name);
+
+                        inquirer.prompt([
+                            {
+                                name: "fName",
+                                type: "input",
+                                message: "What is the new employee's first name?",
+                                validate: function (value) {
+                                    if (isNaN(value) === false) {
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            },
+                            {
+                                name: "lName",
+                                type: "input",
+                                message: "What is the new employee's last name?",
+                                validate: function (value) {
+                                    if (isNaN(value) === false) {
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            },
+                            {
+                                name: "role",
+                                type: "rawlist",
+                                message: "What is the new employee's role?",
+                                roleChoices
+                            }, 
+                            {
+                                name: "manager",
+                                type: "rawlist",
+                                message: "What is the new employee's manager?",
+                                deptChoices
+                            }
+                        ]).then(ans => {
+                            connection.query("INSERT INTO auctions SET ?",
+                                {
+                                    first_name: ans.fName,
+                                    lastName: ans.lName,
+                                    role_id: answer.startingBid,
+                                    manager_id: answer.startingBid
+                                }, (err) => {
+                                    if (err) throw err;
+                                    console.log("Successfully adding an employee");
+                                    start();
+                                });
+            
+                        });
+                });
             });
         } else if (answer.firstLayer === "Update an employee") {
         } else {
