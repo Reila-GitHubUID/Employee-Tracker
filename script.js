@@ -67,6 +67,18 @@ function enterDept() {
             ]
         }
     ]).then(answer => {
+        if (answer.DeptFirstLayer === "View departments") {
+            connection.query('SELECT * FROM department', (err, items) => {
+                if (err) throw err;
+
+            });
+
+        } else if (answer.firstLayer === "Add a department") {
+        } else if (answer.firstLayer === "Update a department") {
+        } else if (answer.firstLayer === "Delete a department") {
+        } else {
+            console.log("DEPARTMENT: Sorry, your input is incorrect");
+        }
     })
 }
 
@@ -121,6 +133,37 @@ function enterRoles() {
                 reBid(chosenItem.id);
             }
         })
+    })
+
+
+
+
+    // *************************************
+    inquirer.prompt([
+        {            
+            name: "RoleFirstLayer",
+            type: "rawlist",
+            message: "What would you like to do in the role record?",
+            choices: [
+                "View roles",
+                "Add a role",
+                "Update a role",
+                "Delete a role"
+            ]
+        }
+    ]).then(answer => {
+        if (answer.RoleFirstLayer === "View roles") {
+            connection.query('SELECT * FROM role', (err, items) => {
+                if (err) throw err;
+
+            });
+
+        } else if (answer.firstLayer === "Add a role") {
+        } else if (answer.firstLayer === "Update a role") {
+        } else if (answer.firstLayer === "Delete a role") {
+        } else {
+            console.log("ROLE: Sorry, your input is incorrect");
+        }
     })
 }
 
@@ -196,7 +239,7 @@ function enterEmployees() {
             });
         } else if (answer.firstLayer === "Update an employee") {
         } else {
-            console.log("Sorry, your input is incorrect");
+            console.log("EMPLOYEE: Sorry, your input is incorrect");
         }
 
 
