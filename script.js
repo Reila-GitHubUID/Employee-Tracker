@@ -88,14 +88,15 @@ function enterDept() {
                 }
             ]).then(ans => {
                 connection.query("INSERT INTO department SET ?",
-                    { name: deptName
+                    { 
+                        name: ans.deptName
                     }, (err) => {
                         if (err) throw err;
                         console.log("Successfully adding a department");
                         enterDept();
                     });
 
-            });                
+            })               
             
         } else if (answer.DeptFirstLayer === "Delete a department") {
             connection.query('SELECT * FROM department', (err, items) => {
