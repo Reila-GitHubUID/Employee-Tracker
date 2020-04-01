@@ -1,5 +1,5 @@
 -- Drops the employee_db if it exists currently --
-DROP DATABASE IF EXISTS employee_db;
+-- DROP DATABASE IF EXISTS employee_db;
 -- Creates the "employee_db" database --
 CREATE DATABASE employee_db;
 
@@ -29,3 +29,9 @@ CREATE TABLE employee (
   manager_id INT,
   PRIMARY KEY (id)
 );
+
+INSERT INTO department (name)
+VALUES ("Sales"), ("Engineering"), ("Legal"), ("IT"), ("Finance");
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("Sales Lead", 100000, 1), ("Salesperson", 60000, 1), ("Lead Engineer", 150000, 2), ("Software Engineer", 120000, 2), ("Accountant", 125000, 5), ("Legal Team Lead", 250000, 3), ("Lawyer", 190000, 3), ("Help Desk", 80000, 4);
