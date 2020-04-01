@@ -223,8 +223,8 @@ function enterRoles() {
     
                 if (err) throw err;
 
-                console.log(`id  title            department`);
-                console.log(`--  ---------------  ---------------`);
+                console.log(`id  title            `);
+                console.log(`--  ---------------  `);
                 for (let i = 0; i < items.length; i++){
                     console.log(`${items[i].id}  ${items[i].title}  `);
                 }
