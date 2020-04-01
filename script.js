@@ -61,7 +61,7 @@ function enterDept() {
             choices: [
                 "View departments",
                 "Add a department",
-                "Delete a department",
+//                "Delete a department",
                 "Back",
                 "Exit"
             ]
@@ -106,33 +106,33 @@ function enterDept() {
 
             });                
             
-        } else if (answer.DeptFirstLayer === "Delete a department") {
-            connection.query('SELECT * FROM department', (err, items) => {
-                if (err) throw err;
-                const choices = items.map(item => item.item_name);
+        // } else if (answer.DeptFirstLayer === "Delete a department") {
+        //     connection.query('SELECT * FROM department', (err, items) => {
+        //         if (err) throw err;
+        //         const choices = items.map(item => item.item_name);
 
-                inquirer.prompt([
-                    {
-                        name: "deptName",
-                        type: "rawList",
-                        message: "What is the department name that you want to delete?",
-                        choices
-                    }
-                ]).then(ans => {connection.query(
-                    "DELETE FROM department WHERE ?",
-                    {
-                      name: ans
-                    },
-                    function(err, res) {
-                      if (err) throw err;
-                      console.log("The department" + res.affectedRows + " is deleted!\n");
-                      // Call readProducts AFTER the DELETE completes
-                      enterDept();
-                    }
-                  );
+        //         inquirer.prompt([
+        //             {
+        //                 name: "deptName",
+        //                 type: "rawList",
+        //                 message: "What is the department name that you want to delete?",
+        //                 choices
+        //             }
+        //         ]).then(ans => {connection.query(
+        //             "DELETE FROM department WHERE ?",
+        //             {
+        //               name: ans
+        //             },
+        //             function(err, res) {
+        //               if (err) throw err;
+        //               console.log("The department" + res.affectedRows + " is deleted!\n");
+        //               // Call readProducts AFTER the DELETE completes
+        //               enterDept();
+        //             }
+        //           );
 
-                });   
-            });                
+        //         });   
+        //     });                
              
 
         } else if (answer.DeptFirstLayer === "Back") {
@@ -218,8 +218,19 @@ function enterRoles() {
         }
     ]).then(answer => {
         if (answer.RoleFirstLayer === "View roles") {
-            connection.query('SELECT * FROM role', (err, items) => {
+            // connection.query('SELECT role.id, role.title, department.name FROM role join department on role.department_id = department.id', (err, items) => {
+            connection.query('SELECT id, title, FROM role', (err, items) => {
+    
                 if (err) throw err;
+
+                console.log(`id  title            department`);
+                console.log(`--  ---------------  ---------------`);
+                for (let i = 0; i < items.length; i++){
+                    console.log(`${items[i].id}  ${items[i].title}  `);
+                }
+                console.log("");
+
+                enterDept();
 
             });
 
