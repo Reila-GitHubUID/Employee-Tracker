@@ -96,7 +96,7 @@ function enterDept() {
                         enterDept();
                     });
 
-            })               
+            });                
             
         } else if (answer.DeptFirstLayer === "Delete a department") {
             connection.query('SELECT * FROM department', (err, items) => {
