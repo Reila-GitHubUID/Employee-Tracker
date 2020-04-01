@@ -148,57 +148,57 @@ function enterDept() {
 }
 
 function enterRoles() {
-    connection.query('SELECT * FROM auctions', (err, items) => {
-        if (err) throw err;
-        const choices = items.map(item => item.item_name);
-        inquirer.prompt([
-            {
-                name: "choice",
-                type: "rawlist",
-                choices,
-                message: "What would you like to make a bid on?"
-            },
-            {
-                name: "bid",
-                type: "input",
-                message: "How much would you like to bid?",
-                validate: function (value) {
-                    if (isNaN(value) === false) {
-                        return true;
-                    }
-                    return false;
-                }
-            }
-        ]).then(answer => {
-            let chosenItem;
-            console.log(answer);
-            for (let i = 0; i < items.length; i++) {
-                if (items[i].item_name === answer.choice) {
-                    chosenItem = items[i];
-                }
-            }
-            if (chosenItem.highest_bid < parseInt(answer.bid)) {
-                connection.query('UPDATE auctions SET ? WHERE ?',
-                    [
-                        {
-                            highest_bid: parseInt(answer.bid)
-                        },
-                        {
-                            id: chosenItem.id
-                        }
-                    ], function (err) {
-                        if (err) throw err;
-                        console.log("Bid was placed successfuly!");
-                        start();
-                    }
-                )
-            } else {
-                console.log("Your bid was too low! Try again");
-                // call rebid here with the items id
-                reBid(chosenItem.id);
-            }
-        })
-    })
+    // connection.query('SELECT * FROM auctions', (err, items) => {
+    //     if (err) throw err;
+    //     const choices = items.map(item => item.item_name);
+    //     inquirer.prompt([
+    //         {
+    //             name: "choice",
+    //             type: "rawlist",
+    //             choices,
+    //             message: "What would you like to make a bid on?"
+    //         },
+    //         {
+    //             name: "bid",
+    //             type: "input",
+    //             message: "How much would you like to bid?",
+    //             validate: function (value) {
+    //                 if (isNaN(value) === false) {
+    //                     return true;
+    //                 }
+    //                 return false;
+    //             }
+    //         }
+    //     ]).then(answer => {
+    //         let chosenItem;
+    //         console.log(answer);
+    //         for (let i = 0; i < items.length; i++) {
+    //             if (items[i].item_name === answer.choice) {
+    //                 chosenItem = items[i];
+    //             }
+    //         }
+    //         if (chosenItem.highest_bid < parseInt(answer.bid)) {
+    //             connection.query('UPDATE auctions SET ? WHERE ?',
+    //                 [
+    //                     {
+    //                         highest_bid: parseInt(answer.bid)
+    //                     },
+    //                     {
+    //                         id: chosenItem.id
+    //                     }
+    //                 ], function (err) {
+    //                     if (err) throw err;
+    //                     console.log("Bid was placed successfuly!");
+    //                     start();
+    //                 }
+    //             )
+    //         } else {
+    //             console.log("Your bid was too low! Try again");
+    //             // call rebid here with the items id
+    //             reBid(chosenItem.id);
+    //         }
+    //     })
+    // })
 
 
 
@@ -219,7 +219,7 @@ function enterRoles() {
     ]).then(answer => {
         if (answer.RoleFirstLayer === "View roles") {
             // connection.query('SELECT role.id, role.title, department.name FROM role join department on role.department_id = department.id', (err, items) => {
-            connection.query('SELECT id, title, FROM role', (err, items) => {
+            connection.query('SELECT id, title FROM role', (err, items) => {
     
                 if (err) throw err;
 
@@ -230,7 +230,7 @@ function enterRoles() {
                 }
                 console.log("");
 
-                enterDept();
+                enterRoles();
 
             });
 
