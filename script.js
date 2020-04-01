@@ -62,14 +62,22 @@ function enterDept() {
                 "View departments",
                 "Add a department",
                 "Delete a department",
-                "Back"
+                "Back",
+                "Exit"
             ]
         }
     ]).then(answer => {
         if (answer.DeptFirstLayer === "View departments") {
             connection.query('SELECT * FROM department', (err, items) => {
                 if (err) throw err;
-                console.log(items);
+
+                console.log(`id  department name`);
+                console.log(`--  ---------------`);
+                for (let i = 0; i < items.length; i++){
+                    console.log(`${items[i].id}  ${items[i].name}`);
+                }
+                console.log("");
+
                 enterDept();
             });
 
@@ -129,6 +137,9 @@ function enterDept() {
 
         } else if (answer.DeptFirstLayer === "Back") {
             start();
+        } else if (answer.DeptFirstLayer === "Exit") {
+            console.log("Thank you for using Ellin's Employee Tracker. Good Bye!");
+            connection.end();
         } else {
             console.log("DEPARTMENT: Sorry, your input is incorrect");
             enterDept();
