@@ -213,12 +213,13 @@ function enterRoles() {
                 "View roles",
                 "Add a role",
                 "Update a role",
-                "Delete a role"
+                "Delete a role",
+                "Back",
+                "Exit"
             ]
         }
     ]).then(answer => {
         if (answer.RoleFirstLayer === "View roles") {
-            // connection.query('SELECT role.id, role.title, department.name FROM role join department on role.department_id = department.id', (err, items) => {
             connection.query('SELECT id, title FROM role', (err, items) => {
     
                 if (err) throw err;
@@ -236,7 +237,12 @@ function enterRoles() {
 
         } else if (answer.firstLayer === "Add a role") {
         } else if (answer.firstLayer === "Update a role") {
-        } else if (answer.firstLayer === "Delete a role") {
+        } else if (answer.firstLayer === "Delete a role") {  
+        } else if (answer.DeptFirstLayer === "Back") {
+            start();
+        } else if (answer.DeptFirstLayer === "Exit") {
+            console.log("Thank you for using Ellin's Employee Tracker. Good Bye!");
+            connection.end();
         } else {
             console.log("ROLE: Sorry, your input is incorrect");
         }
@@ -252,7 +258,9 @@ function enterEmployees() {
             choices: [
                 "View employees",
                 "Add an employee",
-                "Update an employee"
+                "Update an employee",
+                "Back",
+                "Exit"
             ]
         }
     ]).then(answer => {
