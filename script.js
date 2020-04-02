@@ -148,62 +148,7 @@ function enterDept() {
 }
 
 function enterRoles() {
-    // connection.query('SELECT * FROM auctions', (err, items) => {
-    //     if (err) throw err;
-    //     const choices = items.map(item => item.item_name);
-    //     inquirer.prompt([
-    //         {
-    //             name: "choice",
-    //             type: "rawlist",
-    //             choices,
-    //             message: "What would you like to make a bid on?"
-    //         },
-    //         {
-    //             name: "bid",
-    //             type: "input",
-    //             message: "How much would you like to bid?",
-    //             validate: function (value) {
-    //                 if (isNaN(value) === false) {
-    //                     return true;
-    //                 }
-    //                 return false;
-    //             }
-    //         }
-    //     ]).then(answer => {
-    //         let chosenItem;
-    //         console.log(answer);
-    //         for (let i = 0; i < items.length; i++) {
-    //             if (items[i].item_name === answer.choice) {
-    //                 chosenItem = items[i];
-    //             }
-    //         }
-    //         if (chosenItem.highest_bid < parseInt(answer.bid)) {
-    //             connection.query('UPDATE auctions SET ? WHERE ?',
-    //                 [
-    //                     {
-    //                         highest_bid: parseInt(answer.bid)
-    //                     },
-    //                     {
-    //                         id: chosenItem.id
-    //                     }
-    //                 ], function (err) {
-    //                     if (err) throw err;
-    //                     console.log("Bid was placed successfuly!");
-    //                     start();
-    //                 }
-    //             )
-    //         } else {
-    //             console.log("Your bid was too low! Try again");
-    //             // call rebid here with the items id
-    //             reBid(chosenItem.id);
-    //         }
-    //     })
-    // })
 
-
-
-
-    // *************************************
     inquirer.prompt([
         {            
             name: "RoleFirstLayer",
@@ -212,8 +157,8 @@ function enterRoles() {
             choices: [
                 "View roles",
                 "Add a role",
-                "Update a role",
-                "Delete a role",
+                // "Update a role",
+                // "Delete a role",
                 "Back",
                 "Exit"
             ]
@@ -236,8 +181,8 @@ function enterRoles() {
             });
 
         } else if (answer.firstLayer === "Add a role") {
-        } else if (answer.firstLayer === "Update a role") {
-        } else if (answer.firstLayer === "Delete a role") {  
+        // } else if (answer.firstLayer === "Update a role") {
+        // } else if (answer.firstLayer === "Delete a role") {  
         } else if (answer.DeptFirstLayer === "Back") {
             start();
         } else if (answer.DeptFirstLayer === "Exit") {
@@ -259,6 +204,7 @@ function enterEmployees() {
                 "View employees",
                 "Add an employee",
                 "Update an employee",
+                // "Delete an employee",
                 "Back",
                 "Exit"
             ]
@@ -331,7 +277,12 @@ function enterEmployees() {
                         });
                 });
             });
-        } else if (answer.firstLayer === "Update an employee") {
+        } else if (answer.firstLayer === "Update an employee") {    
+        } else if (answer.DeptFirstLayer === "Back") {
+            start();
+        } else if (answer.DeptFirstLayer === "Exit") {
+            console.log("Thank you for using Ellin's Employee Tracker. Good Bye!");
+            connection.end();
         } else {
             console.log("EMPLOYEE: Sorry, your input is incorrect");
         }
@@ -339,28 +290,5 @@ function enterEmployees() {
 
 
 
-        // connection.query("SELECT * FROM auctions WHERE id = ? ", id, (err, res) => {
-        //     const actualItem = res[0];
-        //     if (actualItem.highest_bid < parseInt(answer.bid)) {
-        //         connection.query('UPDATE auctions SET ? WHERE ?',
-        //             [
-        //                 {
-        //                     highest_bid: parseInt(answer.bid)
-        //                 },
-        //                 {
-        //                     id: actualItem.id
-        //                 }
-        //             ], function (err) {
-        //                 if (err) throw err;
-        //                 console.log("Bid was placed successfuly!");
-        //                 start();
-        //             }
-        //         )
-        //     } else {
-        //         console.log("Your bid was too low! Try again");
-        //         // call rebid here with the items id
-        //         reBid(actualItem.id);
-        //     }
-        // })
     });
 }
