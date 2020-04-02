@@ -182,6 +182,29 @@ function enterRoles() {
             });
 
         } else if (answer.RoleFirstLayer === "Add a role") {
+            inquirer.prompt([
+                {
+                    name: "roleName",
+                    type: "input",
+                    message: "What is the new role's name?",
+                    validate: function (value) {
+                        if (value === "") {
+                            return false;
+                        }
+                        return true;
+                    }
+                }
+            ]).then(ans => {
+                connection.query("INSERT INTO department SET ?",
+                    { 
+                        name: ans.deptName
+                    }, (err) => {
+                        if (err) throw err;
+                        console.log("Successfully adding a department");
+                        enterDept();
+                    });
+
+            });
         // } else if (answer.firstLayer === "Update a role") {
         // } else if (answer.firstLayer === "Delete a role") {  
         } else if (answer.RoleFirstLayer === "Back") {
