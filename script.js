@@ -89,10 +89,10 @@ function enterDept() {
                     type: "input",
                     message: "What is the new department's name?",
                     validate: function (value) {
-                        if (isNaN(value) === false) {
-                            return true;
+                        if (value === "") {
+                            return false;
                         }
-                        return false;
+                        return true;
                     }
                 }
             ]).then(ans => {
