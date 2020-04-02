@@ -180,12 +180,12 @@ function enterRoles() {
 
             });
 
-        } else if (answer.firstLayer === "Add a role") {
+        } else if (answer.RoleFirstLayer === "Add a role") {
         // } else if (answer.firstLayer === "Update a role") {
         // } else if (answer.firstLayer === "Delete a role") {  
-        } else if (answer.DeptFirstLayer === "Back") {
+        } else if (answer.RoleFirstLayer === "Back") {
             start();
-        } else if (answer.DeptFirstLayer === "Exit") {
+        } else if (answer.RoleFirstLayer === "Exit") {
             console.log("Thank you for using Ellin's Employee Tracker. Good Bye!");
             connection.end();
         } else {
