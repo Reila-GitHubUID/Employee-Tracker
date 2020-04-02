@@ -36,6 +36,7 @@ function start() {
         } else if (answer.FirstLayer === "Employees record") {
             enterEmployees();
         } else if (answer.FirstLayer === "Exit") {
+            console.log("Thank you for using Ellin's Employee Tracker. Good Bye!\n");
             connection.end();
         } else {
             connection.end();
@@ -138,7 +139,7 @@ function enterDept() {
         } else if (answer.DeptFirstLayer === "Back") {
             start();
         } else if (answer.DeptFirstLayer === "Exit") {
-            console.log("Thank you for using Ellin's Employee Tracker. Good Bye!");
+            console.log("Thank you for using Ellin's Employee Tracker. Good Bye!\n");
             connection.end();
         } else {
             console.log("DEPARTMENT: Sorry, your input is incorrect");
@@ -186,7 +187,7 @@ function enterRoles() {
         } else if (answer.RoleFirstLayer === "Back") {
             start();
         } else if (answer.RoleFirstLayer === "Exit") {
-            console.log("Thank you for using Ellin's Employee Tracker. Good Bye!");
+            console.log("Thank you for using Ellin's Employee Tracker. Good Bye!\n");
             connection.end();
         } else {
             console.log("ROLE: Sorry, your input is incorrect");
@@ -281,7 +282,7 @@ function enterEmployees() {
         } else if (answer.DeptFirstLayer === "Back") {
             start();
         } else if (answer.DeptFirstLayer === "Exit") {
-            console.log("Thank you for using Ellin's Employee Tracker. Good Bye!");
+            console.log("Thank you for using Ellin's Employee Tracker. Good Bye!\n");
             connection.end();
         } else {
             console.log("EMPLOYEE: Sorry, your input is incorrect");
