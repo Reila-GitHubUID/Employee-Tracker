@@ -126,7 +126,7 @@ function enterDept() {
                     },
                     function(err, res) {
                       if (err) throw err;
-                      console.log("The department" + res.deptName + " is deleted!\n");
+                      console.log("The department" + res.affectedRows + " is deleted!\n");
                       // Call readProducts AFTER the DELETE completes
                       enterDept();
                     }
