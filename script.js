@@ -101,7 +101,7 @@ function enterDept() {
                         name: ans.deptName
                     }, (err) => {
                         if (err) throw err;
-                        console.log("Successfully adding a department");
+                        console.log("Successfully adding a " + ans.deptName+ " department");
                         enterDept();
                     });
 
@@ -115,7 +115,7 @@ function enterDept() {
                 inquirer.prompt([
                     {
                         name: "deptName",
-                        type: "rawList",
+                        type: "rawlist",
                         message: "What is the department name that you want to delete?",
                         choices
                     }
