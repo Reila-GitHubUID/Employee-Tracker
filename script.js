@@ -63,7 +63,7 @@ function enterDept() {
             choices: [
                 "View departments",
                 "Add a department",
-                "Delete a department",
+//                "Delete a department",
                 "Back",
                 "Exit"
             ]
@@ -197,11 +197,11 @@ function enterRoles() {
             ]).then(ans => {
                 connection.query("INSERT INTO department SET ?",
                     { 
-                        name: ans.deptName
+                        name: ans.roleName
                     }, (err) => {
                         if (err) throw err;
-                        console.log("Successfully adding a department");
-                        enterDept();
+                        console.log("Successfully adding the role "+ans.roleName+ " in the database.");
+                        enterRoles();
                     });
 
             });
@@ -243,7 +243,7 @@ function enterEmployees() {
         if (answer.EmpFirstLayer === "View employees") {
 
             let query = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name,`;
-            query += `role.title AS title, department.name AS department, role.salary AS salary, employee.manager_id AS manager `;
+            query += `role.title AS title, role.salary AS salary, employee.manager_id AS manager `;
             query += "FROM employee INNER JOIN role ON topalbums.artist = ? AND employee.manager_id = role.id  "
             query += "AND employee.role_id = role.id AND role.department_id = department_id;"
 
@@ -254,7 +254,7 @@ function enterEmployees() {
                 console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
                 for (let i = 0; i < items.length; i++){
                     console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${items[i].title}
-                    \t\t\t ${items[i].department} \t\t\t ${items[i].salary} \t\t\t ${items[i].manager}`);
+                    \t\t\t  \t\t\t ${items[i].salary} \t\t\t ${items[i].manager}`);
                 }
                 console.log("");
 

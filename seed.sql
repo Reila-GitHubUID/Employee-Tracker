@@ -35,3 +35,10 @@ VALUES ("Sales"), ("Engineering"), ("Legal"), ("IT"), ("Finance");
 
 INSERT INTO role (title, salary, department_id)
 VALUES ("Sales Lead", 100000, 1), ("Salesperson", 60000, 1), ("Lead Engineer", 150000, 2), ("Software Engineer", 120000, 2), ("Accountant", 125000, 5), ("Legal Team Lead", 250000, 3), ("Lawyer", 190000, 3), ("Help Desk", 80000, 4);
+
+select * from role;
+INSERT INTO employee (first_name, last_name, role_id)
+VALUES ("Ellin"), ("Tjondrokusumo"), (2);
+select * from employee;
+
+delete from department where id =9;
