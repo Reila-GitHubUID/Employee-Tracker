@@ -233,15 +233,28 @@ function enterEmployees() {
                 "Exit"
             ]
         }
-    ]).then(answer => {
+    ]).then(answer => {   
+        // let query = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name,`;
+        // query += `role.title AS title, department.name AS department, role.salary AS salary, employee.manager_id AS manager `;
+        // query += "FROM employee INNER JOIN role ON topalbums.artist = ? AND employee.manager_id = role.id  "
+        // query += "AND employee.role_id = role.id AND role.department_id = department_id;"
+
+
         if (answer.EmpFirstLayer === "View employees") {
-            connection.query('SELECT * FROM employee', (err, items) => {
+
+            let query = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name,`;
+            query += `role.title AS title, department.name AS department, role.salary AS salary, employee.manager_id AS manager `;
+            query += "FROM employee INNER JOIN role ON topalbums.artist = ? AND employee.manager_id = role.id  "
+            query += "AND employee.role_id = role.id AND role.department_id = department_id;"
+
+            connection.query(query, answer.artist, (err, items) => {
                 if (err) throw err;
 
                 console.log(`id  first name     last name        title              department   salary  manager`);
                 console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
                 for (let i = 0; i < items.length; i++){
-                    console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${items[i].first_name}`);
+                    console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${items[i].title}
+                    \t\t\t ${items[i].department} \t\t\t ${items[i].salary} \t\t\t ${items[i].manager}`);
                 }
                 console.log("");
 
@@ -295,7 +308,7 @@ function enterEmployees() {
                                 deptChoices
                             }
                         ]).then(ans => {
-                            connection.query("INSERT INTO auctions SET ?",
+                            connection.query("INSERT INTO employee SET ?",
                                 {
                                     first_name: ans.fName,
                                     lastName: ans.lName,
