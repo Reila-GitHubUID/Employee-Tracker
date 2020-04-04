@@ -241,7 +241,7 @@ function enterEmployees() {
                 console.log(`id  first name     last name        title              department   salary  manager`);
                 console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
                 for (let i = 0; i < items.length; i++){
-                    console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name}`);
+                    console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${items[i].first_name}`);
                 }
                 console.log("");
 
