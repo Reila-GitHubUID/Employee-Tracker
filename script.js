@@ -258,7 +258,7 @@ function enterEmployees() {
                 }
                 console.log("");
 
-                enterRoles();
+                enterEmployees();
                 
             });
 
@@ -311,13 +311,13 @@ function enterEmployees() {
                             connection.query("INSERT INTO employee SET ?",
                                 {
                                     first_name: ans.fName,
-                                    lastName: ans.lName,
-                                    role_id: answer.startingBid,
-                                    manager_id: answer.startingBid
+                                    last_Name: ans.lName,
+                                    role_id: answer.role,
+                                    manager_id: answer.manager
                                 }, (err) => {
                                     if (err) throw err;
-                                    console.log("Successfully adding an employee");
-                                    start();
+                                    console.log("Successfully adding employee"+ans.fName+" "+ans.lName+".\n");
+                                    enterEmployees();
                                 });
             
                         });
