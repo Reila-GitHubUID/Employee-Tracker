@@ -47,6 +47,7 @@ function start() {
 //   * Add departments, roles, employees
 //   * View departments, roles, employees
 //   * Update employee roles
+//********************** */
 //   * Update employee managers
 //   * View employees by manager
 //   * Delete departments, roles, and employees
@@ -236,6 +237,15 @@ function enterEmployees() {
         if (answer.EmpFirstLayer === "View employees") {
             connection.query('SELECT * FROM employee', (err, items) => {
                 if (err) throw err;
+
+                console.log(`id  first name     last name        title              department   salary  manager`);
+                console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
+                for (let i = 0; i < items.length; i++){
+                    console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name}`);
+                }
+                console.log("");
+
+                enterRoles();
                 
             });
 
