@@ -205,20 +205,21 @@ function enterRoles() {
                         message: "What department does this new role belong to?"
                     }
                 ]).then(ans => {
-                    connection.query('SELECT id FROM department WHERE ?', {name: depatName}, (err, result) => {
+                    console.log("ans.deptName="+ans.deptName);
+                    connection.query('SELECT id FROM department WHERE name=?', ans.deptName, (err, result) => {
                         if (err) throw err;
-                        const d_num = result.id;
+                        const d_num = result;
                         console.log("d_num === " + d_num);
                         
-                            connection.query("INSERT INTO role SET ?",
-                                { 
-                                    title: ans.roleName,
-                                    department_id: d_num
-                                }, (err) => {
-                                    if (err) throw err;
-                                    console.log("Successfully adding the role "+ans.roleName+ " in the database.");
-                                    enterRoles();
-                                });
+                            // connection.query("INSERT INTO role SET ?",
+                            //     { 
+                            //         title: ans.roleName
+                            //         // department_id: d_num
+                            //     }, (err) => {
+                            //         if (err) throw err;
+                            //         console.log("Successfully adding the role "+ans.roleName+ " in the database.");
+                            //         enterRoles();
+                            //     });
 
                     })
 
