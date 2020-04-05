@@ -198,21 +198,30 @@ function enterRoles() {
                             return true;
                         }
                     }
-                    // ,{
-                    //     name: "deptName",
-                    //     type: "rawlist",
-                    //     deptChoices,
-                    //     message: "What department does this new role belong to?"
-                    // }
+                    ,{
+                        name: "deptName",
+                        type: "rawlist",
+                        deptChoices,
+                        message: "What department does this new role belong to?"
+                    }
                 ]).then(ans => {
-                    connection.query("INSERT INTO department SET ?",
-                        { 
-                            title: ans.roleName
-                        }, (err) => {
-                            if (err) throw err;
-                            console.log("Successfully adding the role "+ans.roleName+ " in the database.");
-                            enterRoles();
-                        });
+                    connection.query('SELECT id FROM department WHERE ?', {name: deptItems.depatName}, (err, result) => {
+                        if (err) throw err;
+                        const d_num = result.id;
+                        console.log("d_num === " + d_num);
+                        
+                            connection.query("INSERT INTO role SET ?",
+                                { 
+                                    title: ans.roleName,
+                                    department_id: d_num
+                                }, (err) => {
+                                    if (err) throw err;
+                                    console.log("Successfully adding the role "+ans.roleName+ " in the database.");
+                                    enterRoles();
+                                });
+
+                    })
+
 
                 });
             })
