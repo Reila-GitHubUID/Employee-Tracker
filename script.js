@@ -260,14 +260,12 @@ function enterEmployees() {
         // query += "FROM employee INNER JOIN role ON topalbums.artist = ? AND employee.manager_id = role.id  "
         // query += "AND employee.role_id = role.id AND role.department_id = department_id;"
 
-        // console.log("Boooo");
         if (answer.EmpFirstLayer === "View employees") {
             let query = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name,`;
             query += `employee.role_id, employee.manager_id AS manager FROM employee`;
-            // console.log(query);
 
             
-            connection.query(query, answer.artist, (err, items) => {
+            connection.query(query, answer.EmpFirstLayer, (err, items) => {
                 if (err) throw err;
 
                 console.log(`id  first name     last name        title              department   salary  manager`);
