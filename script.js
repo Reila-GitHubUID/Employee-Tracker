@@ -262,20 +262,28 @@ function enterEmployees() {
 
 
         if (answer.EmpFirstLayer === "View employees") {
-
             let query = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name,`;
-            query += `role.title AS title, role.salary AS salary, employee.manager_id AS manager `;
-            query += "FROM employee INNER JOIN role ON topalbums.artist = ? AND employee.manager_id = role.id  "
-            query += "AND employee.role_id = role.id AND role.department_id = department_id;"
+            query += `employee.role_id, employee.manager_id AS manager FROM employee`;
 
             connection.query(query, answer.artist, (err, items) => {
                 if (err) throw err;
 
-                console.log(`id  first name     last name        title              department   salary  manager`);
-                console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
                 for (let i = 0; i < items.length; i++){
-                    console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${items[i].title}
-                    \t\t\t  \t\t\t ${items[i].salary} \t\t\t ${items[i].manager}`);
+                    connection.query(`SELECT role.title, role.salary, department.name AS department FROM role INNER JOIN department WHERE role.department_id = department.id AND role.id = ${items[i]}.role_id`, (err, roleDeptItems) => {
+            
+                        if (err) throw err;
+
+                        connection.query(`SELECT first_name, last_name FROM employee WHERE id=${items[i].manager_id}`, (err, mgr) => {
+            
+                            if (err) throw err;
+
+                            console.log(`id  first name     last name        title              department   salary  manager`);
+                            console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
+                            console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${roleDeptItems[0].title}
+                            \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t ${mgr[0].first_name} ${mgr[0].last_name}`);
+                        });
+
+                    });
                 }
                 console.log("");
 
