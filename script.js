@@ -260,16 +260,22 @@ function enterEmployees() {
         // query += "FROM employee INNER JOIN role ON topalbums.artist = ? AND employee.manager_id = role.id  "
         // query += "AND employee.role_id = role.id AND role.department_id = department_id;"
 
-
+        console.log("Boooo");
         if (answer.EmpFirstLayer === "View employees") {
             let query = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name,`;
             query += `employee.role_id, employee.manager_id AS manager FROM employee`;
+            console.log(query);
 
+            
             connection.query(query, answer.artist, (err, items) => {
                 if (err) throw err;
 
+                console.log("BoBoo");
+
                 for (let i = 0; i < items.length; i++){
-                    connection.query(`SELECT role.title, role.salary, department.name AS department FROM role INNER JOIN department WHERE role.department_id = department.id AND role.id = ${items[i]}.role_id`, (err, roleDeptItems) => {
+                    console.log(`SELECT role.title, role.salary, department.name AS department FROM role INNER JOIN department WHERE role.department_id = department.id AND role.id = ${items[i].role_id}`);
+                    
+                    /**connection.query(`SELECT role.title, role.salary, department.name AS department FROM role INNER JOIN department WHERE role.department_id = department.id AND role.id = ${items[i].role_id}`, (err, roleDeptItems) => {
             
                         if (err) throw err;
 
@@ -283,15 +289,16 @@ function enterEmployees() {
                             \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t ${mgr[0].first_name} ${mgr[0].last_name}`);
                         });
 
-                    });
+                    });*/
                 }
                 console.log("");
 
                 enterEmployees();
                 
             });
+            
 
-        } else if (answer.firstLayer === "Add an employee") {
+        } else if (answer.EmpFirstLayer === "Add an employee") {
             
             connection.query('SELECT * FROM role', (err, roleItems) => {
                 if (err) throw err;
@@ -352,14 +359,15 @@ function enterEmployees() {
                         });
                 });
             });
-        } else if (answer.firstLayer === "Update an employee") {    
-        } else if (answer.DeptFirstLayer === "Back") {
+        } else if (answer.EmpFirstLayer === "Update an employee") {    
+        } else if (answer.EmpFirstLayer === "Back") {
             start();
-        } else if (answer.DeptFirstLayer === "Exit") {
+        } else if (answer.EmpFirstLayer === "Exit") {
             console.log("Thank you for using Ellin's Employee Tracker. Good Bye!\n");
             connection.end();
         } else {
             console.log("EMPLOYEE: Sorry, your input is incorrect");
+            enterEmployees();
         }
 
 
