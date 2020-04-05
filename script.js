@@ -278,12 +278,17 @@ function enterEmployees() {
             
                         if (err) throw err;
 
+                        if (items[i].manager === null) {
+                            console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${roleDeptItems[0].title}
+                            \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t null`);
+                        } else {
                             connection.query(`SELECT first_name, last_name FROM employee WHERE id=${items[i].manager}`, (err, mgr) => {
-                
                                 if (err) throw err;
+                                
                                 console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${roleDeptItems[0].title}
-                                \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t `);
+                                \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t ${mgr.first_name} ${mgr.last_name}`);
                             });
+                        }
 
                     });
                 }
