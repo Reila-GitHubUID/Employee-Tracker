@@ -213,8 +213,8 @@ function enterRoles() {
                         
                         connection.query("INSERT INTO role SET ?",
                             { 
-                                title: ans.roleName
-                                // department_id: d_num
+                                title: ans.roleName,
+                                department_id: d_num
                             }, (err) => {
                                 if (err) throw err;
                                 console.log("Successfully adding the role "+ans.roleName+ " in the database.");
