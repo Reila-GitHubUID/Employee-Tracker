@@ -254,21 +254,17 @@ function enterEmployees() {
                 "Exit"
             ]
         }
-    ]).then(answer => {   
-        // let query = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name,`;
-        // query += `role.title AS title, department.name AS department, role.salary AS salary, employee.manager_id AS manager `;
-        // query += "FROM employee INNER JOIN role ON topalbums.artist = ? AND employee.manager_id = role.id  "
-        // query += "AND employee.role_id = role.id AND role.department_id = department_id;"
+    ]).then(answer => {
 
         if (answer.EmpFirstLayer === "View employees") {
             let query = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name,`;
             query += `employee.role_id, employee.manager_id AS manager FROM employee`;
 
-            
+            console.log("");
             connection.query(query, (err, items) => {
                 if (err) throw err;
 
-                console.log(`\nid  first name     last name        title              department   salary  manager`);
+                console.log(`id  first name     last name        title              department   salary  manager`);
                 console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
 
                 for (let i = 0; i < items.length; i++){
