@@ -270,7 +270,8 @@ function enterEmployees() {
             connection.query(query, answer.artist, (err, items) => {
                 if (err) throw err;
 
-                // console.log("BoBoo");
+                console.log(`id  first name     last name        title              department   salary  manager`);
+                console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
 
                 for (let i = 0; i < items.length; i++){
                     // console.log(`SELECT role.title, role.salary, department.name AS department FROM role INNER JOIN department WHERE role.department_id = department.id AND role.id = ${items[i].role_id}`);
@@ -279,23 +280,24 @@ function enterEmployees() {
             
                         if (err) throw err;
 
-                        connection.query(`SELECT first_name, last_name FROM employee WHERE id=${items[i].manager_id}`, (err, mgr) => {
-            
-                            if (err) throw err;
-
-                            console.log(`id  first name     last name        title              department   salary  manager`);
-                            console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
-                            console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${roleDeptItems[0].title}
-                            \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t ${mgr[0].first_name} ${mgr[0].last_name}`);
-                        });
+                        try {                                
+                            connection.query(`SELECT first_name, last_name FROM employee WHERE id=${items[i].manager}`, (err, mgr) => {
+                
+                                if (err) throw err;
+                                console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${roleDeptItems[0].title}
+                                \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t `);
+                            });
+                        } catch (e) {
+                            throw e;
+                        }
 
                     });
                 }
-                console.log("");
-
-                enterEmployees();
                 
             });
+            console.log("");
+
+            enterEmployees();
             
 
         } else if (answer.EmpFirstLayer === "Add an employee") {
