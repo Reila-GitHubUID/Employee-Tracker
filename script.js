@@ -263,7 +263,7 @@ function enterEmployees() {
             connection.query(query, (err, items) => {
                 if (err) throw err;
 
-                console.log("test");
+                console.log("");
                 console.log(`id  first name     last name        title              department   salary  manager`);
                 console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
 
@@ -286,11 +286,11 @@ function enterEmployees() {
 
                     });
                 }
-                console.log("");
-
-                enterEmployees();
+                console.log("lalalalalala");
                 
             });
+
+            enterEmployees();
             
 
         } else if (answer.EmpFirstLayer === "Add an employee") {
