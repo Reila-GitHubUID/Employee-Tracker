@@ -260,10 +260,10 @@ function enterEmployees() {
             let query = `SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name,`;
             query += `employee.role_id, employee.manager_id AS manager FROM employee`;
 
-            console.log("");
             connection.query(query, (err, items) => {
                 if (err) throw err;
 
+                console.log("test");
                 console.log(`id  first name     last name        title              department   salary  manager`);
                 console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
 
@@ -275,14 +275,12 @@ function enterEmployees() {
                         if (err) throw err;
 
                         if (items[i].manager === null) {
-                            console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t ${roleDeptItems[0].title}
-                            \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t null`);
+                            console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t ${roleDeptItems[0].title} \t\t  ${roleDeptItems[0].department}\t\t ${roleDeptItems[0].salary} \t\t null`);
                         } else {
                             connection.query(`SELECT first_name, last_name FROM employee WHERE id=${items[i].manager}`, (err, mgr) => {
                                 if (err) throw err;
                                 
-                                console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${roleDeptItems[0].title}
-                                \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t ${mgr[0].first_name} ${mgr[0].last_name}`);
+                                console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t ${roleDeptItems[0].title} \t\t  ${roleDeptItems[0].department}\t\t ${roleDeptItems[0].salary} \t\t ${mgr[0].first_name} ${mgr[0].last_name}`);
                             });
                         }
 
