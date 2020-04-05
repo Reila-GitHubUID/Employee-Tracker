@@ -201,11 +201,11 @@ function enterRoles() {
                     ,{
                         name: "deptName",
                         type: "rawlist",
-                        deptChoices,
+                        choices: deptChoices,
                         message: "What department does this new role belong to?"
                     }
                 ]).then(ans => {
-                    connection.query('SELECT id FROM department WHERE ?', {name: deptItems.depatName}, (err, result) => {
+                    connection.query('SELECT id FROM department WHERE ?', {name: depatName}, (err, result) => {
                         if (err) throw err;
                         const d_num = result.id;
                         console.log("d_num === " + d_num);
