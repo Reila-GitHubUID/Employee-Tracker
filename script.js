@@ -182,29 +182,40 @@ function enterRoles() {
             });
 
         } else if (answer.RoleFirstLayer === "Add a role") {
-            inquirer.prompt([
-                {
-                    name: "roleName",
-                    type: "input",
-                    message: "What is the new role's name?",
-                    validate: function (value) {
-                        if (value === "") {
-                            return false;
+            connection.query('SELECT * FROM department', (err, deptItems) => {
+                if (err) throw err;
+                const deptChoices = deptItems.map(item => item.name);
+                
+                inquirer.prompt([
+                    {
+                        name: "roleName",
+                        type: "input",
+                        message: "What is the new role's name?",
+                        validate: function (value) {
+                            if (value === "") {
+                                return false;
+                            }
+                            return true;
                         }
-                        return true;
                     }
-                }
-            ]).then(ans => {
-                connection.query("INSERT INTO department SET ?",
-                    { 
-                        name: ans.roleName
-                    }, (err) => {
-                        if (err) throw err;
-                        console.log("Successfully adding the role "+ans.roleName+ " in the database.");
-                        enterRoles();
-                    });
+                    // ,{
+                    //     name: "deptName",
+                    //     type: "rawlist",
+                    //     deptChoices,
+                    //     message: "What department does this new role belong to?"
+                    // }
+                ]).then(ans => {
+                    connection.query("INSERT INTO department SET ?",
+                        { 
+                            title: ans.roleName
+                        }, (err) => {
+                            if (err) throw err;
+                            console.log("Successfully adding the role "+ans.roleName+ " in the database.");
+                            enterRoles();
+                        });
 
-            });
+                });
+            })
         // } else if (answer.firstLayer === "Update a role") {
         // } else if (answer.firstLayer === "Delete a role") {  
         } else if (answer.RoleFirstLayer === "Back") {
