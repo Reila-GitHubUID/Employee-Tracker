@@ -208,18 +208,18 @@ function enterRoles() {
                     console.log("ans.deptName="+ans.deptName);
                     connection.query('SELECT id FROM department WHERE name=?', ans.deptName, (err, result) => {
                         if (err) throw err;
-                        const d_num = result;
+                        const d_num = result[0].id;
                         console.log("d_num === " + d_num);
                         
-                            // connection.query("INSERT INTO role SET ?",
-                            //     { 
-                            //         title: ans.roleName
-                            //         // department_id: d_num
-                            //     }, (err) => {
-                            //         if (err) throw err;
-                            //         console.log("Successfully adding the role "+ans.roleName+ " in the database.");
-                            //         enterRoles();
-                            //     });
+                        connection.query("INSERT INTO role SET ?",
+                            { 
+                                title: ans.roleName
+                                // department_id: d_num
+                            }, (err) => {
+                                if (err) throw err;
+                                console.log("Successfully adding the role "+ans.roleName+ " in the database.");
+                                enterRoles();
+                            });
 
                     })
 
