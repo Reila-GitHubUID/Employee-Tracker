@@ -265,7 +265,7 @@ function enterEmployees() {
             query += `employee.role_id, employee.manager_id AS manager FROM employee`;
 
             
-            connection.query(query, answer.EmpFirstLayer, (err, items) => {
+            connection.query(query, (err, items) => {
                 if (err) throw err;
 
                 console.log(`id  first name     last name        title              department   salary  manager`);
@@ -278,16 +278,12 @@ function enterEmployees() {
             
                         if (err) throw err;
 
-                        try {                                
                             connection.query(`SELECT first_name, last_name FROM employee WHERE id=${items[i].manager}`, (err, mgr) => {
                 
                                 if (err) throw err;
                                 console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${roleDeptItems[0].title}
                                 \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t `);
                             });
-                        } catch (e) {
-                            throw e;
-                        }
 
                     });
                 }
