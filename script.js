@@ -166,18 +166,18 @@ function enterRoles() {
         }
     ]).then(answer => {
         if (answer.RoleFirstLayer === "View roles") {
-            connection.query('SELECT id, title FROM role', (err, items) => {
+            connection.query('SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department WHERE role.department_id = department.id', (err, items) => {
     
-                if (err) throw err;
+                    if (err) throw err;
 
-                console.log(`id  title            `);
-                console.log(`--  ---------------  `);
-                for (let i = 0; i < items.length; i++){
-                    console.log(`${items[i].id}  ${items[i].title}  `);
-                }
-                console.log("");
+                    console.log(`id   title\t\t   salary\t   department`);
+                    console.log(`--   --------------------  --------------  --------------`);
+                    for (let i = 0; i < items.length; i++){
+                        console.log(`${items[i].id}    ${items[i].title}\t\t   ${items[i].salary}\t    ${items[i].department}`);
+                    }
+                    console.log("");
 
-                enterRoles();
+                    enterRoles();
 
             });
 
@@ -197,8 +197,8 @@ function enterRoles() {
                             }
                             return true;
                         }
-                    }
-                    ,{
+                    },
+                    {
                         name: "deptName",
                         type: "rawlist",
                         choices: deptChoices,
