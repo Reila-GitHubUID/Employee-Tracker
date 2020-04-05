@@ -268,7 +268,7 @@ function enterEmployees() {
             connection.query(query, (err, items) => {
                 if (err) throw err;
 
-                console.log(`id  first name     last name        title              department   salary  manager`);
+                console.log(`\nid  first name     last name        title              department   salary  manager`);
                 console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
 
                 for (let i = 0; i < items.length; i++){
@@ -279,24 +279,24 @@ function enterEmployees() {
                         if (err) throw err;
 
                         if (items[i].manager === null) {
-                            console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${roleDeptItems[0].title}
+                            console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t ${roleDeptItems[0].title}
                             \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t null`);
                         } else {
                             connection.query(`SELECT first_name, last_name FROM employee WHERE id=${items[i].manager}`, (err, mgr) => {
                                 if (err) throw err;
                                 
                                 console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t\t ${roleDeptItems[0].title}
-                                \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t ${mgr.first_name} ${mgr.last_name}`);
+                                \t\t\t  ${roleDeptItems[0].department}\t\t\t ${roleDeptItems[0].salary} \t\t\t ${mgr[0].first_name} ${mgr[0].last_name}`);
                             });
                         }
 
                     });
                 }
+                console.log("");
+    
+                enterEmployees();
                 
             });
-            console.log("");
-
-            enterEmployees();
             
 
         } else if (answer.EmpFirstLayer === "Add an employee") {
