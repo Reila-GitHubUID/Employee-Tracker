@@ -281,21 +281,12 @@ function enterEmployees() {
                                 console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t ${roleDeptItems[0].title} \t\t  ${roleDeptItems[0].department}\t\t ${roleDeptItems[0].salary} \t\t ${mgr[0].first_name} ${mgr[0].last_name}`);
                             });
                         }
-                    
-                        let j = i;
-                        j++;
-                        if (j === items.length) {
-                            console.log("Ding Dong!!");
-                            enterEmployees();
-
-                        }
-
                     });
-
-
                 }
-
-            });                       
+            });  
+            setTimeout(function afterTwoSeconds() {
+                enterEmployees()
+              }, 1000);                     
 
         } else if (answer.EmpFirstLayer === "Add an employee") {
             
@@ -307,74 +298,70 @@ function enterEmployees() {
                     if (err) throw err;
                     const mgrChoices = deptItems.map(item => item.first_name+" "+item.last_name);
 
-                        inquirer.prompt([
-                            {
-                                name: "fName",
-                                type: "input",
-                                message: "What is the new employee's first name?",
-                                validate: function (value) {
-                                    if (value === "") {
-                                        return false;
-                                    }
-                                    return true;
+                    inquirer.prompt([
+                        {
+                            name: "fName",
+                            type: "input",
+                            message: "What is the new employee's first name?",
+                            validate: function (value) {
+                                if (value === "") {
+                                    return false;
                                 }
-                            },
-                            {
-                                name: "lName",
-                                type: "input",
-                                message: "What is the new employee's last name?",
-                                validate: function (value) {
-                                    if (value === "") {
-                                        return false;
-                                    }
-                                    return true;
-                                }
-                            },
-                            {
-                                name: "role",
-                                type: "rawlist",
-                                message: "What is the new employee's role?",
-                                choices: roleChoices
-                            }, 
-                            {
-                                name: "manager",
-                                type: "rawlist",
-                                message: "What is the new employee's manager?",
-                                choices: mgrChoices
+                                return true;
                             }
-                        ]).then(ans => {
-                            // find the role_id based on the roleName
-                            let queryRoleID = `SELECT id from ROLE where title="${ans.role}"`;
+                        },
+                        {
+                            name: "lName",
+                            type: "input",
+                            message: "What is the new employee's last name?",
+                            validate: function (value) {
+                                if (value === "") {
+                                    return false;
+                                }
+                                return true;
+                            }
+                        },
+                        {
+                            name: "role",
+                            type: "rawlist",
+                            message: "What is the new employee's role?",
+                            choices: roleChoices
+                        }, 
+                        {
+                            name: "manager",
+                            type: "rawlist",
+                            message: "What is the new employee's manager?",
+                            choices: mgrChoices
+                        }
+                    ]).then(ans => {
+                        // find the role_id based on the roleName
+                        let queryRoleID = `SELECT id from ROLE where title="${ans.role}"`;
 
-                            // find the manager_id based on the manager's name
-                            let managerName = ans.manager;
-                            let managerNameArray = managerName.split(" ");
-                            let queryManagerID = `SELECT id FROM employee WHERE first_name="${managerNameArray[0]}" AND last_name="${managerNameArray[1]}"`;
+                        // find the manager_id based on the manager's name
+                        let managerName = ans.manager;
+                        let managerNameArray = managerName.split(" ");
+                        let queryManagerID = `SELECT id FROM employee WHERE first_name="${managerNameArray[0]}" AND last_name="${managerNameArray[1]}"`;
 
-                            connection.query(queryRoleID, (err, result1) => {
+                        connection.query(queryRoleID, (err, result1) => {
+                            if (err) throw err;
+                            let roleID = result1[0].id;
+                            connection.query(queryManagerID, (err, result2) => {
                                 if (err) throw err;
-                                let roleID = result1[0].id;
-                                connection.query(queryManagerID, (err, result2) => {
-                                    if (err) throw err;
-                                    let managerID = result2[0].id;
-                                    connection.query("INSERT INTO employee SET ?",
-                                        {
-                                            first_name: ans.fName,
-                                            last_Name: ans.lName,
-                                            role_id: roleID,
-                                            manager_id: managerID
-                                        }, (err) => {
-                                            if (err) throw err;
-                                            console.log("Successfully adding employee "+ans.fName+" "+ans.lName+" in the system.\n");
-                                            enterEmployees();
-                                    });
-
+                                let managerID = result2[0].id;
+                                connection.query("INSERT INTO employee SET ?",
+                                    {
+                                        first_name: ans.fName,
+                                        last_Name: ans.lName,
+                                        role_id: roleID,
+                                        manager_id: managerID
+                                    }, (err) => {
+                                        if (err) throw err;
+                                        console.log("Successfully adding employee "+ans.fName+" "+ans.lName+" in the system.\n");
+                                        enterEmployees();
                                 });
                             });
-
-
-            
-                        });
+                        });            
+                    });
                 });
             });
         } else if (answer.EmpFirstLayer === "Update an employee") {    
