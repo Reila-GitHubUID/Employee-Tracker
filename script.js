@@ -347,20 +347,32 @@ function enterEmployees() {
                             let queryRoleID = `SELECT id from ROLE where title=${ans.role}`;
 
                             // find the manager_id based on the manager's name
-                            console.log("ans.role===" + ans.role);
-                            let queryManagerID = `SELECT id from employee where first_name=${ans.role}`;
+                            let managerName = ans.manager;
+                            let managerNameArray = managerName.split(" ");
+                            let queryManagerID = `SELECT id FROM employee WHERE first_name=${managerNameArray[0]} AND last_name=${managerNameArray[1]}`;
 
-                            connection.query("INSERT INTO employee SET ?",
-                                {
-                                    first_name: ans.fName,
-                                    last_Name: ans.lName,
-                                    role_id: ans.role,
-                                    manager_id: ans.manager
-                                }, (err) => {
+                            connection.query(queryRoleID, (err, result1) => {
+                                if (err) throw err;
+                                let roleID = result1;
+                                connection.query(queryManagerID, (err, result2) => {
                                     if (err) throw err;
-                                    console.log("Successfully adding employee"+ans.fName+" "+ans.lName+".\n");
-                                    enterEmployees();
+                                    let managerID = result2;
+                                    connection.query("INSERT INTO employee SET ?",
+                                        {
+                                            first_name: ans.fName,
+                                            last_Name: ans.lName,
+                                            role_id: roleID,
+                                            manager_id: managerID
+                                        }, (err) => {
+                                            if (err) throw err;
+                                            console.log("Successfully adding employee"+ans.fName+" "+ans.lName+" in the system.\n");
+                                            enterEmployees();
+                                    });
+
                                 });
+                            });
+
+
             
                         });
                 });
