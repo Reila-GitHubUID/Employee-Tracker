@@ -263,12 +263,10 @@ function enterEmployees() {
             connection.query(query, (err, items) => {
                 if (err) throw err;
 
-                console.log("");
                 console.log(`id  first name     last name        title              department   salary  manager`);
                 console.log(`--  -------------  ---------------  -----------------  -----------  ------  ---------------`);
 
                 for (let i = 0; i < items.length; i++){
-                    // console.log(`SELECT role.title, role.salary, department.name AS department FROM role INNER JOIN department WHERE role.department_id = department.id AND role.id = ${items[i].role_id}`);
                     
                     connection.query(`SELECT role.title, role.salary, department.name AS department FROM role INNER JOIN department WHERE role.department_id = department.id AND role.id = ${items[i].role_id}`, (err, roleDeptItems) => {
             
@@ -283,23 +281,29 @@ function enterEmployees() {
                                 console.log(`${items[i].id}  ${items[i].first_name} \t ${items[i].last_name} \t\t ${roleDeptItems[0].title} \t\t  ${roleDeptItems[0].department}\t\t ${roleDeptItems[0].salary} \t\t ${mgr[0].first_name} ${mgr[0].last_name}`);
                             });
                         }
+                    
+                        let j = i;
+                        j++;
+                        if (j === items.length) {
+                            console.log("Ding Dong!!");
+                            enterEmployees();
+
+                        }
 
                     });
-                }
-                console.log("lalalalalala");
-                
-            });
 
-            enterEmployees();
-            
+
+                }
+
+            });                       
 
         } else if (answer.EmpFirstLayer === "Add an employee") {
             
-            connection.query('SELECT * FROM role', (err, roleItems) => {
+            connection.query('SELECT title FROM role', (err, roleItems) => {
                 if (err) throw err;
                 const roleChoices = roleItems.map(item => item.title);
 
-                connection.query('SELECT * FROM department', (err, deptItems) => {
+                connection.query('SELECT name FROM department', (err, deptItems) => {
                     if (err) throw err;
                     const deptChoices = deptItems.map(item => item.name);
 
