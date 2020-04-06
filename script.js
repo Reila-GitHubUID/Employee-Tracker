@@ -344,19 +344,19 @@ function enterEmployees() {
                             }
                         ]).then(ans => {
                             // find the role_id based on the roleName
-                            let queryRoleID = `SELECT id from ROLE where title=${ans.role}`;
+                            let queryRoleID = `SELECT id from ROLE where title="${ans.role}"`;
 
                             // find the manager_id based on the manager's name
                             let managerName = ans.manager;
                             let managerNameArray = managerName.split(" ");
-                            let queryManagerID = `SELECT id FROM employee WHERE first_name=${managerNameArray[0]} AND last_name=${managerNameArray[1]}`;
+                            let queryManagerID = `SELECT id FROM employee WHERE first_name="${managerNameArray[0]}" AND last_name="${managerNameArray[1]}"`;
 
                             connection.query(queryRoleID, (err, result1) => {
                                 if (err) throw err;
-                                let roleID = result1;
+                                let roleID = result1[0].id;
                                 connection.query(queryManagerID, (err, result2) => {
                                     if (err) throw err;
-                                    let managerID = result2;
+                                    let managerID = result2[0].id;
                                     connection.query("INSERT INTO employee SET ?",
                                         {
                                             first_name: ans.fName,
@@ -365,7 +365,7 @@ function enterEmployees() {
                                             manager_id: managerID
                                         }, (err) => {
                                             if (err) throw err;
-                                            console.log("Successfully adding employee"+ans.fName+" "+ans.lName+" in the system.\n");
+                                            console.log("Successfully adding employee "+ans.fName+" "+ans.lName+" in the system.\n");
                                             enterEmployees();
                                     });
 
