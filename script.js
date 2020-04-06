@@ -302,14 +302,10 @@ function enterEmployees() {
             connection.query('SELECT title FROM role', (err, roleItems) => {
                 if (err) throw err;
                 const roleChoices = roleItems.map(item => item.title);
-                console.log("********");
-                console.log(roleChoices);
 
                 connection.query('select first_name, last_name from employee where id IN (SELECT manager_id FROM employee WHERE manager_id IS NOT null);', (err, deptItems) => {
                     if (err) throw err;
-                    const mgrChoices = deptItems.map(item => item.name);
-                    console.log("********");
-                    console.log(mgrChoices);
+                    const mgrChoices = deptItems.map(item => item.first_name+" "+item.last_name);
 
                         inquirer.prompt([
                             {
@@ -317,10 +313,10 @@ function enterEmployees() {
                                 type: "input",
                                 message: "What is the new employee's first name?",
                                 validate: function (value) {
-                                    if (isNaN(value) === false) {
-                                        return true;
+                                    if (value === "") {
+                                        return false;
                                     }
-                                    return false;
+                                    return true;
                                 }
                             },
                             {
@@ -328,10 +324,10 @@ function enterEmployees() {
                                 type: "input",
                                 message: "What is the new employee's last name?",
                                 validate: function (value) {
-                                    if (isNaN(value) === false) {
-                                        return true;
+                                    if (value === "") {
+                                        return false;
                                     }
-                                    return false;
+                                    return true;
                                 }
                             },
                             {
@@ -351,6 +347,7 @@ function enterEmployees() {
                             let queryRoleID = `SELECT id from ROLE where title=${ans.role}`;
 
                             // find the manager_id based on the manager's name
+                            console.log("ans.role===" + ans.role);
                             let queryManagerID = `SELECT id from employee where first_name=${ans.role}`;
 
                             connection.query("INSERT INTO employee SET ?",
