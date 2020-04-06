@@ -334,21 +334,26 @@ function enterEmployees() {
                                 name: "role",
                                 type: "rawlist",
                                 message: "What is the new employee's role?",
-                                roleChoices
+                                choices: roleChoices
                             }, 
                             {
                                 name: "manager",
                                 type: "rawlist",
                                 message: "What is the new employee's manager?",
-                                deptChoices
+                                choices: deptChoices
                             }
                         ]).then(ans => {
+                            // find the role_id based on the roleName
+
+                            // find the manager_id based on the manager's name
+                            
+
                             connection.query("INSERT INTO employee SET ?",
                                 {
                                     first_name: ans.fName,
                                     last_Name: ans.lName,
-                                    role_id: answer.role,
-                                    manager_id: answer.manager
+                                    role_id: ans.role,
+                                    manager_id: ans.manager
                                 }, (err) => {
                                     if (err) throw err;
                                     console.log("Successfully adding employee"+ans.fName+" "+ans.lName+".\n");
