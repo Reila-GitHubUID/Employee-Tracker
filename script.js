@@ -302,10 +302,14 @@ function enterEmployees() {
             connection.query('SELECT title FROM role', (err, roleItems) => {
                 if (err) throw err;
                 const roleChoices = roleItems.map(item => item.title);
+                console.log("********");
+                console.log(roleChoices);
 
-                connection.query('SELECT name FROM department', (err, deptItems) => {
+                connection.query('select first_name, last_name from employee where id IN (SELECT manager_id FROM employee WHERE manager_id IS NOT null);', (err, deptItems) => {
                     if (err) throw err;
-                    const deptChoices = deptItems.map(item => item.name);
+                    const mgrChoices = deptItems.map(item => item.name);
+                    console.log("********");
+                    console.log(mgrChoices);
 
                         inquirer.prompt([
                             {
@@ -340,13 +344,14 @@ function enterEmployees() {
                                 name: "manager",
                                 type: "rawlist",
                                 message: "What is the new employee's manager?",
-                                choices: deptChoices
+                                choices: mgrChoices
                             }
                         ]).then(ans => {
                             // find the role_id based on the roleName
+                            let queryRoleID = `SELECT id from ROLE where title=${ans.role}`;
 
                             // find the manager_id based on the manager's name
-                            
+                            let queryManagerID = `SELECT id from employee where first_name=${ans.role}`;
 
                             connection.query("INSERT INTO employee SET ?",
                                 {
