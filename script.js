@@ -364,7 +364,21 @@ function enterEmployees() {
                     });
                 });
             });
-        } else if (answer.EmpFirstLayer === "Update an employee") {    
+        } else if (answer.EmpFirstLayer === "Update an employee") {  
+            connection.query('SELECT title FROM role', (err, roleItems) => {
+                if (err) throw err;
+                const roleChoices = roleItems.map(item => item.title);
+
+                connection.query('select first_name, last_name from employee where id IN (SELECT manager_id FROM employee WHERE manager_id IS NOT null);', (err, deptItems) => {
+                    if (err) throw err;
+                    const mgrChoices = deptItems.map(item => item.first_name+" "+item.last_name);
+
+
+                                message: "Who do you want to update?",
+                                
+                });
+            });
+
         } else if (answer.EmpFirstLayer === "Back") {
             start();
         } else if (answer.EmpFirstLayer === "Exit") {
